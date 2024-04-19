@@ -148,3 +148,296 @@ If we use traditional looping to find where group a new element should be added 
 But if we use _binary search_ to find the place, then time complexity will reduce to $O(n \cdot log n)$ .
 
 > Because we have proofed that the last element of the groups is ascending, so we could implement binary search to find place for new element.
+
+
+## Code Example
+
+Anyway this part is alternative, if you don't already know how the algorithm works and don't want to know the specific implementation, then just skip this part.
+
+Here I make an code implementation/example using C++.
+
+```cpp
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using std::cout, std::endl;
+using std::vector;
+
+using LL = long long;
+
+class GroupItem
+{
+public:
+    LL mArrIndex;
+    LL mValue;
+    LL mNotAffectIndex;
+
+    GroupItem(LL arrIndex, LL value, LL notAffectIndex)
+        : mArrIndex(arrIndex),
+          mValue(value),
+          mNotAffectIndex(notAffectIndex) {}
+};
+
+class Group
+{
+public:
+    LL mGroupIndex;
+    vector<GroupItem> mItems;
+
+    Group(LL groupIndex, GroupItem firstItem)
+        : mGroupIndex(groupIndex)
+    {
+        mItems.clear();
+        mItems.push_back(firstItem);
+    }
+
+    LL last() const
+    {
+        return (*(mItems.end() - 1)).mValue;
+    }
+
+    friend std::ostream &operator<<(std::ostream &os, const Group &ins);
+};
+
+std::ostream &operator<<(std::ostream &os, const Group &ins)
+{
+    os << "g[" << ins.mGroupIndex << "]: " << endl;
+    for (const GroupItem &item : ins.mItems)
+    {
+        os << "arr[" << item.mArrIndex << "]: " << item.mValue
+           << "      (Non-affected -> g[" << ins.mGroupIndex - 1 << "][" << item.mNotAffectIndex << "])" << endl;
+    }
+    return os;
+}
+
+// Find the group index in which where the new element should be
+//
+// If thie element could not be put into any currently existing group, return -1
+// (Which means in which circumstance you need to create a new group)
+LL findInsertPlace(const vector<Group> &groupList, const LL &element)
+{
+    // get group count, init left, right, mid
+    LL groupCount = groupList.size();
+    LL left = 0;
+    LL right = groupCount - 1;
+    LL mid = 0;
+
+    // if need to create new group
+    if (groupCount < 1 || groupList[groupCount - 1].last() <= element)
+    {
+        return -1;
+    }
+
+    // start binary search
+    while (left < right)
+    {
+        LL mid = (left + right) / 2;
+        LL midGroupLast = groupList[mid].last();
+
+        if (midGroupLast > element)
+        {
+            right = mid;
+        }
+        else if (midGroupLast <= element)
+        {
+            left = mid + 1;
+        }
+    }
+
+    return left;
+}
+
+void addToGroupList(vector<Group> &groupList, LL elementIndex, LL element)
+{
+    LL index = findInsertPlace(groupList, element);
+
+    // add new group
+    if (index == -1)
+    {
+        LL notAffected = -1;
+        if (groupList.size() > 0)
+        {
+            notAffected = groupList[groupList.size() - 1].mItems.size() - 1;
+        }
+        groupList.push_back(
+            Group(
+                groupList.size(),
+                GroupItem(
+                    elementIndex,
+                    element,
+                    notAffected)));
+
+        return;
+    }
+
+    LL notAffected = -1;
+    if (index > 0)
+    {
+        notAffected = groupList[index - 1].mItems.size() - 1;
+    }
+
+    // add to existing group
+    groupList[index].mItems.push_back(
+        GroupItem(
+            elementIndex,
+            element,
+            notAffected));
+}
+
+int main()
+{
+    // create test arr
+    vector<LL> arr{1, 2, 4, 2, 3, 6, 5, 9, 4};
+    LL arrSize = arr.size();
+    vector<Group> groupList;
+    for (LL i = 0; i < arrSize; ++i)
+    {
+        addToGroupList(groupList, i, arr[i]);
+
+        // show groups info
+        cout << "-----------------------after adding arr[" << i << "]: " << arr[i] << "------------------------" << endl;
+        for (const Group &group : groupList)
+        {
+            cout << group << endl;
+        }
+    }
+
+    return 0;
+}
+```
+
+Noticed that I used _binary search_ in this code example. And I have print the very detailed info of the elements inside the groups after adding each elements so you can clearly see how it works.
+
+The output is:
+
+```
+-----------------------after adding arr[0]: 1------------------------
+g[0]:
+arr[0]: 1      (Non-affected -> g[-1][-1])
+
+-----------------------after adding arr[1]: 2------------------------
+g[0]:
+arr[0]: 1      (Non-affected -> g[-1][-1])
+
+g[1]:
+arr[1]: 2      (Non-affected -> g[0][0])
+
+-----------------------after adding arr[2]: 4------------------------
+g[0]:
+arr[0]: 1      (Non-affected -> g[-1][-1])
+
+g[1]:
+arr[1]: 2      (Non-affected -> g[0][0])
+
+g[2]:
+arr[2]: 4      (Non-affected -> g[1][0])
+
+-----------------------after adding arr[3]: 2------------------------
+g[0]:
+arr[0]: 1      (Non-affected -> g[-1][-1])
+
+g[1]:
+arr[1]: 2      (Non-affected -> g[0][0])
+
+g[2]:
+arr[2]: 4      (Non-affected -> g[1][0])
+arr[3]: 2      (Non-affected -> g[1][0])
+
+-----------------------after adding arr[4]: 3------------------------
+g[0]:
+arr[0]: 1      (Non-affected -> g[-1][-1])
+
+g[1]:
+arr[1]: 2      (Non-affected -> g[0][0])
+
+g[2]:
+arr[2]: 4      (Non-affected -> g[1][0])
+arr[3]: 2      (Non-affected -> g[1][0])
+
+g[3]:
+arr[4]: 3      (Non-affected -> g[2][1])
+
+-----------------------after adding arr[5]: 6------------------------
+g[0]:
+arr[0]: 1      (Non-affected -> g[-1][-1])
+
+g[1]:
+arr[1]: 2      (Non-affected -> g[0][0])
+
+g[2]:
+arr[2]: 4      (Non-affected -> g[1][0])
+arr[3]: 2      (Non-affected -> g[1][0])
+
+g[3]:
+arr[4]: 3      (Non-affected -> g[2][1])
+
+g[4]:
+arr[5]: 6      (Non-affected -> g[3][0])
+
+-----------------------after adding arr[6]: 5------------------------
+g[0]:
+arr[0]: 1      (Non-affected -> g[-1][-1])
+
+g[1]: 
+arr[1]: 2      (Non-affected -> g[0][0])
+
+g[2]:
+arr[2]: 4      (Non-affected -> g[1][0])
+arr[3]: 2      (Non-affected -> g[1][0])
+
+g[3]:
+arr[4]: 3      (Non-affected -> g[2][1])
+
+g[4]:
+arr[5]: 6      (Non-affected -> g[3][0])
+arr[6]: 5      (Non-affected -> g[3][0])
+
+-----------------------after adding arr[7]: 9------------------------
+g[0]:
+arr[0]: 1      (Non-affected -> g[-1][-1])
+
+g[1]:
+arr[1]: 2      (Non-affected -> g[0][0])
+
+g[2]:
+arr[2]: 4      (Non-affected -> g[1][0])
+arr[3]: 2      (Non-affected -> g[1][0])
+
+g[3]:
+arr[4]: 3      (Non-affected -> g[2][1])
+
+g[4]:
+arr[5]: 6      (Non-affected -> g[3][0])
+arr[6]: 5      (Non-affected -> g[3][0])
+
+g[5]:
+arr[7]: 9      (Non-affected -> g[4][1])
+
+-----------------------after adding arr[8]: 4------------------------
+g[0]:
+arr[0]: 1      (Non-affected -> g[-1][-1])
+
+g[1]:
+arr[1]: 2      (Non-affected -> g[0][0])
+
+g[2]:
+arr[2]: 4      (Non-affected -> g[1][0])
+arr[3]: 2      (Non-affected -> g[1][0])
+
+g[3]:
+arr[4]: 3      (Non-affected -> g[2][1])
+
+g[4]:
+arr[5]: 6      (Non-affected -> g[3][0])
+arr[6]: 5      (Non-affected -> g[3][0])
+arr[8]: 4      (Non-affected -> g[3][0])
+
+g[5]:
+arr[7]: 9      (Non-affected -> g[4][1])
+```
+
+Some explanation:
+
+- `Non-affected -> g[i][j]`  means this element's non-affected element is in `g[i]`, and it's the `g[i].mItems[j]`. More clearly, `i` spefify the group number, and `j` specify the position of the element in that group.
+- `g[-1][-1]` means this elements is in the first group and have no concept of non-affected element.
