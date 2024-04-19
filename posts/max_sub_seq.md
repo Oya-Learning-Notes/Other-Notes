@@ -140,3 +140,11 @@ From first conclusion we know, if we want to make the ascending array as long as
 So that's it. We could always find a MSA with the length equal to the number of the groups.
 
 > All the _less than_ in this passage could be exchanged with _less than or equal to_ statements, it's acutally decided by what you want, if you want a strictly ascending sub array, then you should use _less than or equal to_ , otherwise just use _less than_ will be enough.
+
+## Time Complexity
+
+If we use traditional looping to find where group a new element should be added to, then the complexity is the same to the DP method which is $O(n^2)$ .
+
+But if we use _binary search_ to find the place, then time complexity will reduce to $O(n \cdot log n)$ .
+
+> Because we have proofed that the last element of the groups is ascending, so we could implement binary search to find place for new element.
