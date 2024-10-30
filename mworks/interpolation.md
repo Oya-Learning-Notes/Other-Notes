@@ -1,3 +1,4 @@
+
 # Interpolation
 
 ## Linear Interpolation
@@ -64,7 +65,7 @@ $$
 
 The advantage is that the value of **all previous $a$ is identical when we adding a new point**.
 
-## Divided Differences
+### Divided Differences
 
 The calculation of coefficients could be defined recursively using **Divided Differences**.
 
@@ -88,7 +89,74 @@ Below is an example:
 ![image](https://github.com/user-attachments/assets/0c6cedc9-a0e8-42e4-89d4-796665455107)
 
 
+### Order Of Points
+
+The points in DD(Divided Difference) table could be exchanged.
+
+![IMG_3933](https://github.com/user-attachments/assets/5632d57c-e96c-41e7-8920-e7484becc6d1)
+
+
+Consider the example question above. If we use the x-coordinate sequence $[1,2,4,5]$, then when estimate point $x=2.4$ with power 1 (only using 2 points), we are actually doing extrapolation ($2.4 \notin [1,2]$)
+
+So to make we are doing interpolation, we could put the point $(2,6), \; (4,2)$ at the beginning.
+
+### Rest Of Newton Interpolation
+
+For an order-$n$ newton interpolation and an estimate $y_e = f(x_e)$, it’s easy to calculate the $R$ (which is the error value between estimate $y_e$ and the true $y$ if there is one)
+
+We just consider that we have a new point $(x_e, y_t)$ ($y_t = f(x_e)$, which is the true $y$ value of the function), then calculate the order-$n+1$ coefficient: 
+
+$$f[x_0, x_1, …, x_n, x]$$
+
+And we use this coefficient and the original interpolation $N_n(x)$ to construct a new Newton Interpolation with order $n+1$:
+
+$$
+N_{n+1}(x) = N_{n}(x) + f[x_0, x_1, …, x_n, x_e]\omega_{n+1}(x)
+$$
+
+> The definition of $\omega{n}$, check out the chapter of Rest of Lagrange’s Interpolation.
+
+And we also know the the the point $(x_e, y_t)$ is a sample point, so $N_{n+1}(x_e)$ must precisely on the interpolation function. So we have:
+
+$$
+f(x_e) = N_{n}(x_e) + f[x_0, x_1, …, x_n, x_e]\omega_{n+1}(x_e)
+$$
+
+At this point, we will found that for a certain point $x_e$, the error between estimate and true value (that is, the rest), is exactly:
+
+$$
+f[x_0, x_1, …, x_n, x_e]\omega_{n+1}(x_e)
+$$
+
+So in conclusion, for a $n$ order Newton Interpolation $N_n(x)$, it's rest at position $x$ is:
+
+$$
+R_{n} = f[x_0, x_1, …, x_n, x]\omega_{n+1}(x)
+$$
+
+## Hermite Interpolation
+
+Similar to Lagrange, however, allow limiting derivative value at some points.
+
+The **order is determined by the total number of conditions** (including value condition and derivative condition)
+
+### Construction Example
+
+![image](https://github.com/user-attachments/assets/0de4d03c-26fe-403a-9acf-4e17b2b7eff2)
+
+As we see, there are 4 total conditions, so the max order should be set to $3$. Also, we list out the function value of $\alpha$ based on conditions (see the image above).
+
+After the equation construction, we need to solve out the value of $\alpha_i, i \in \{1,2,3,4\}$. Here note that $\alpha$ is not a number, it's a $n$ order polynomial with variable $x$.
+
+![image](https://github.com/user-attachments/assets/f06e005c-ebdb-4691-9040-b1ccf9637d5e)
+
+### About Factor Theorem
+
+![image](https://github.com/user-attachments/assets/cad9a9b9-d38d-43fc-b3e8-710338aaa182)
+
+
 ## Refs
 
 - [Construction Intuition Of Lagrange’s Formula](https://www.cnblogs.com/olderciyuan/p/15578688.html)
 - [Lagrange’s Error Estimation](https://blog.csdn.net/yuanYW7556/article/details/102974768)
+- [Another Approach To Calc Hermite Coefficient](https://coast.nd.edu/jjwteach/www/www/30125/pdfnotes/lecture5_9v14.pdf)
