@@ -155,6 +155,25 @@ After the equation construction, we need to solve out the value of $\alpha_i, i 
 ![image](https://github.com/user-attachments/assets/cad9a9b9-d38d-43fc-b3e8-710338aaa182)
 
 
+## Spline Interpolation
+
+Devided the $n+1$ points into $n$ segments. Each segments interpolation will be an $3$-order function.
+
+### Conditions Used
+
+![Conditions](https://github.com/user-attachments/assets/4660a65b-5571-4504-b22e-e5793fd55ab7)
+
+Then we could use different additional conditions as shown follows:
+
+![Edge Conditions](https://github.com/user-attachments/assets/68ab2199-611a-4a12-afd6-a814b57fa985)
+
+
+### Error Estimate
+
+\fr![Spline Error Estimate](https://github.com/user-attachments/assets/dd594034-677b-4637-b417-49fc6fb0293a)
+
+Notice for a Hermite 2-point 3-order interpolation, the error is $\frac{h^4}{384}|f^{(4)}|$. That’is, value error of Spline is 5 times larger than 2p3o hermite interpolation.
+
 ## Refs
 
 - [Construction Intuition Of Lagrange’s Formula](https://www.cnblogs.com/olderciyuan/p/15578688.html)
