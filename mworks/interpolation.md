@@ -154,6 +154,27 @@ After the equation construction, we need to solve out the value of $\alpha_i, i 
 
 ![image](https://github.com/user-attachments/assets/cad9a9b9-d38d-43fc-b3e8-710338aaa182)
 
+### Error Estimate
+
+Hermite Remaindar is similar to previous two, only different part lays on the $\omega$ part.
+
+- The order $n$ of $(x - x_i)^n$ rely on the number of conditions on point $x_i$
+
+For example, the we have four limitation:
+
+- $f(x_1)$, $f’(x_1)$, $f’’(x_1), f(x_2)$
+
+Then the omega part should be:
+
+$$
+(x - x_1)^3(x - x_2)
+$$
+
+Then the total remainder is:
+
+$$
+R = \frac{f^{4}(x)}{4!}(x - x_1)^3(x - x_2)
+$$
 
 ## Spline Interpolation
 
