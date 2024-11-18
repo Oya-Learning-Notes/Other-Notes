@@ -11,7 +11,10 @@ $$
 Look back to the basic matrix:
 
 $$
-\begin{pmatrix} (\varphi_0, \varphi_0) & (\varphi_0, \varphi_1) & (\varphi_0, \varphi_2) \\ (\varphi_1, \varphi_0) & (\varphi_1, \varphi_1) & (\varphi_1, \varphi_2) \\ (\varphi_2, \varphi_0) & (\varphi_2, \varphi_1) & (\varphi_2, \varphi_2) \end{pmatrix}
+\begin{bmatrix} (
+\varphi_0, \varphi_0) & (\varphi_0, \varphi_1) & (\varphi_0, \varphi_2) \\
+(\varphi_1, \varphi_0) & (\varphi_1, \varphi_1) & (\varphi_1, \varphi_2) \\
+(\varphi_2, \varphi_0) & (\varphi_2, \varphi_1) & (\varphi_2, \varphi_2) \end{bmatrix}
 $$
 
 In discrete version, we have:
