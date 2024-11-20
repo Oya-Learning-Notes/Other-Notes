@@ -76,27 +76,27 @@ Matrix norms are properties of a matrix.
 
 列范数 (计算 每一列元素 的 绝对值之和，取最大): 
 
-$$
-||A||_1 = \max_{1 \leq j \leq n} \sum_{i=1}^n |a_{ij}|
-$$
+```math
+\|A\|_1 = \max_{1 \leq j \leq n} \sum_{i=1}^n |a_{ij}|
+```
 
 行范数  (计算 每一行元素 的 绝对值之和，取最大): 
 
-$$
-||A||_\infty = \max_{1 \leq i \leq n} \sum_{j=1}^n |a_{ij}|
-$$
+```math
+\|A\|_\infty = \max_{1 \leq i \leq n} \sum_{j=1}^n |a_{ij}|
+```
 
 2 范数 (A^TA的 最大特征值 的 平方根):
 
-$$
-||A||_2 = \sqrt{ \lambda_{max}(A^TA)}
-$$
+```math
+\|A\|_2 = \sqrt{ \lambda_{max}(A^TA)}
+```
 
 F 范数（可以理解为 欧式范数 直接推广）**（不是算子范数）**: 
 
-$$
-||A||_F = \sqrt{\sum_{i,j=1}^n a_{ij}^2}
-$$
+```math
+\|A\|_F = \sqrt{\sum_{i,j=1}^n a_{ij}^2}
+```
 
 ![image](https://github.com/user-attachments/assets/5990445e-4179-4567-9fe4-9f6f93658cf5)
 
@@ -122,7 +122,7 @@ $$
 \rho(A) \leq \|A\|
 $$
 
-In which, $||A||$ could be all Operator norm (All norms above, $||A||_1, ||A||_2, ||A||_\infty$ expect $||A||_F$)
+In which, $\|A\|$ could be all Operator norm (All norms above, $\|A\|_1, \|A\|_2, \|A\|_\infty$ expect $\|A\|_F$)
 
 ## Convergence
 
