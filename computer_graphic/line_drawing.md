@@ -70,6 +70,24 @@ $$
 e = e + 2 \Delta y - 2 \Delta x
 $$
 
+# Drawing Circle
+
+```
+Init: x=0, y=R, e=1-R
+while not finish:
+    Draw(x, y)
+
+    if e<0:
+        e=e+2x+3
+        x=x+1, y=y    // choose middle right
+    elif e>=0:
+        e=e+2(x-y)+5
+        x=x+1, y=y-1  // choose bottom right
+```
+
+- Update `e` first, update `x, y` afterward.
+  - This means, we **use old value when updating `e` (error)**
+
 # Bresenham Conclusion
 
 |         | Central | Bresenham |
