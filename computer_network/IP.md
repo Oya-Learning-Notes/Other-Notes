@@ -70,9 +70,9 @@ We could use slash notation to represent the number of bits of the network id:
 
 Think about the old, categorized IP allocation method, which the IANA could only choose to allocate one of the three type of IP as a whole:
 
-- A: Contains maximum $2^24-2$ hosts. (16,777,214)
-- B: Contains maximum $2^16-2$ hosts. (65,534)
-- C: Contains maximum $2^12-2$ hosts. (4,096)
+- A: Contains maximum $2^{24}-2$ hosts. (16,777,214)
+- B: Contains maximum $2^{16}-2$ hosts. (65,534)
+- C: Contains maximum $2^{12}-2$ hosts. (4,096)
 
 So, what if I want about 1,000,000 addresses? Which one should I apply for, 16 million is too many, but 65k is definitely not enough. Lack of more granularity, right?
 
